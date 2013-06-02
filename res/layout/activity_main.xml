@@ -1,0 +1,290 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayoutMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <ListView
+        android:id="@+id/results"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:choiceMode="none"
+        android:drawSelectorOnTop="false"
+        android:transcriptMode="alwaysScroll"      
+        android:layout_weight="2" >
+    </ListView>
+
+    <TextView
+        android:id="@+id/display"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_weight="1.3"
+        android:layout_margin="2dp"
+        android:background="#C6C89E"
+        android:gravity="center_vertical|right"
+        
+        android:text="@string/stDisplay"
+        android:textColor="#000"
+        android:textSize="32sp"
+        android:tag="123456789.01234"
+        android:typeface="monospace" />
+    
+    <LinearLayout
+        android:id="@+id/pad"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_weight="10"
+        android:orientation="horizontal" 
+        android:baselineAligned="false">		
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"     
+            android:baselineAligned="false"    
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/idMMinus"
+                style="@style/MemButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="M-"                                           
+                android:text="@string/stMMinus" />
+            <Button
+                android:id="@+id/id7"
+                style="@style/NormalButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="7"
+                android:text="@string/st7" />
+
+            <Button
+                android:id="@+id/id4"
+                style="@style/NormalButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="4"
+                android:text="@string/st4" />
+
+            <Button
+                android:id="@+id/id1"
+                style="@style/NormalButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="1"
+                android:text="@string/st1" />
+
+            <Button
+                android:id="@+id/id0"
+                style="@style/NormalButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="0"
+                android:text="@string/st0" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/idMPlus"
+                style="@style/MemButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="M+"
+                android:text="@string/stMPlus" />
+
+            <Button
+                android:id="@+id/id8"
+                style="@style/NormalButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="8"
+                android:text="@string/st8" />
+
+            <Button
+                android:id="@+id/id5"
+                style="@style/NormalButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="5"
+                android:text="@string/st5" />
+            <Button
+                android:id="@+id/id2"
+                style="@style/NormalButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="2"
+                android:text="@string/st2" />
+            <Button              
+                android:id="@+id/id00"
+                style="@style/NormalButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="00"
+                android:text="@string/st00" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:weightSum="5"            
+            android:orientation="vertical" >
+            <Button
+                android:id="@+id/idMR"
+                style="@style/MemButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="MR"
+                android:text="@string/stMR" />
+
+            <Button
+                android:id="@+id/id9"
+                style="@style/NormalButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="9"
+                android:text="@string/st9" />
+
+            <Button
+                android:id="@+id/id6"
+                style="@style/NormalButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="6"
+                android:text="@string/st6" />
+            <Button
+                android:id="@+id/id3"
+                style="@style/NormalButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="3"
+                android:text="@string/st3" />
+
+            <Button
+                android:id="@+id/idDot"
+                style="@style/NormalButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="."
+                android:text="@string/stDot" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:weightSum="5"        
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/idMC"
+                style="@style/MemButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="MC"
+                android:text="@string/stMC" />
+
+            <Button
+                android:id="@+id/idPercent"
+                style="@style/NormalButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="%" 
+                android:text="@string/stPercent" />
+
+            <Button
+                android:id="@+id/button8"
+                style="@style/NormalButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="*"
+                android:text="@string/stMuliple" />
+
+            <Button
+                android:id="@+id/idPlus"
+                style="@style/NormalButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:tag="+"
+                android:text="@string/stPlus" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"             
+            android:orientation="vertical" >
+            <Button 
+                android:id="@+id/idAC"
+                style="@style/HiButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="AC"
+                android:text="@string/stAC" />
+
+            <Button
+                android:id="@+id/idC"
+                style="@style/HiButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="C"
+                android:text="@string/stC" />
+
+            <Button
+                android:id="@+id/idDivid"
+                style="@style/NormalButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="/"
+                android:text="@string/stDivid" />
+
+            <Button
+                android:id="@+id/idMinus"
+                style="@style/NormalButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="-"
+                android:text="@string/stMinus" />
+
+            <Button
+                android:id="@+id/idEqual"
+                style="@style/NormalButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:tag="="
+                android:text="@string/stEqual" />
+        </LinearLayout>
+    </LinearLayout>    
+</LinearLayout>

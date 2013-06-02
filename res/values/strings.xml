@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Accountant Calculator</string>
+    <string name="action_settings">Settings</string>
+    
+    <string name="stMR">MR</string>
+    <string name="stMC">MC</string>
+    <string name="stMPlus">M+</string>
+    <string name="stMMinus">M-</string>
+    <string name="stAC">AC</string>
+    <string name="stC">C</string>
+    <string name="stPercent">%</string>
+    <string name="stPlus">+</string>
+    <string name="stMinus">-</string>
+    <string name="stMuliple">×</string>
+    <string name="stDivid">÷</string>
+    <string name="stEqual">=</string>
+    <string name="stDot">.</string>    
+    <string name="st9">9</string>
+    <string name="st8">8</string>
+    <string name="st7">7</string>
+    <string name="st6">6</string>
+    <string name="st5">5</string>
+    <string name="st4">4</string>
+    <string name="st3">3</string>
+    <string name="st2">2</string>
+    <string name="st1">1</string>
+    <string name="st0">0</string>
+	<string name="st00">00</string>
+	<string name="stDisplay">0.0E</string>
+</resources>
