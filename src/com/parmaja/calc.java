@@ -1,19 +1,17 @@
 package com.parmaja;
-
+/*
+* 
+* 
+*/
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.text.Format;
-import java.text.NumberFormat;
-import java.text.Format;
 import java.util.Arrays;
-
-import android.text.TextUtils.StringSplitter;
+import java.math.*;
 
 public class calc {
 
-	protected enum CalcState {
-		csFirst, csValid, csError
-	};
+	protected enum CalcState {csFirst, csValid, csError};
 
 	protected boolean Started = false;
 	protected CalcState Status = CalcState.csFirst;
@@ -52,16 +50,17 @@ public class calc {
 		DispNumber = R;
 		KeepZeroes = 0;
 		int p = Number.indexOf('.');
-		if (ShouldKeepZeroes && p > 0) {
+		
+		if (ShouldKeepZeroes && p >= 0) {
 			int i = Number.length() - 1;
-			while (i > (p + 1)) {
+			while (i > p) {
 				if (Number.charAt(i) == '0')
 					KeepZeroes++;
 				else
 					break;
 			}
 
-			NumberFormat df = new DecimalFormat("#0.0");
+			DecimalFormat df = new DecimalFormat("#0.0");
 			S = df.format(R);
 
 			if (KeepZeroes > 0)
@@ -75,7 +74,7 @@ public class calc {
 			}
 
 			if (S.length() > MaxDigits + 1 + MaxDecimals)
-				Error();
+				error();
 			else {
 				if (S.endsWith("."))
 					S = S.substring(S.length() - 1);
@@ -84,35 +83,35 @@ public class calc {
 		}
 	}
 
-	boolean process(String key) {
-		double r;
-		int x;
-		void CheckFirst() {		  
-		    if (Status == csFirst) {		    
-		      Status = CalcState.csValid;
-		      setDisplay(0, false);
-		    }
-		  }
-		String s;
+	protected void check() {		  
+	    if (Status == CalcState.csFirst) {		    
+	      Status = CalcState.csValid;
+	      setDisplay(0, false);
+	    }
+	  }
+	
+	boolean process(String key) {	
 		
+		double r;	
+		String s;		
 		boolean result = true;
 		
-		key = UpperCase(key);
+		key = key.toUpperCase();
 		
-		if ((Status == CalcState.csError) && (key != 'C')) 
-		    key = ' ';
+		if ((Status == CalcState.csError) && (key != "C")) 
+		    key = " ";
 		  r = 0;
 		  if (HexShown) {		  
 		    r = getDisplay();
 		    setDisplay(r, false);
-		    HexShown = False;
-		    if (key == 'H')
-		      key = ' ';
+		    HexShown = false;
+		    if (key == "H")
+		      key = " ";
 		  }
 		  
 		  if (key == "X^Y")
 		    key = "^";
-		  else if (Key == "_")
+		  else if (key == "_")
 		    key = "+/-";
 
 		  if (key.length() > 1) {	    
@@ -131,17 +130,17 @@ public class calc {
 		      else if (key == "SQRT") {		      
 		        if (r < 0)
 		          error();
-		        else
-		          setDisplay(sqrt(r), false);
+		        else 
+		          setDisplay(Math.sqrt(r), false);
 		      }
 		      else if (key == "LOG") {		      
 		        if (r <= 0)
 		        	error(); 
 		        else 
-		        	setDisplay(ln(R), false);
+		        	setDisplay(Math.log(r), false);
 		      }
 		      else if (key == "X^2")
-		        setDisplay(R * R, false);
+		        setDisplay(r * r, false);
 		      else if (key == "+/-") {		      
 		        if (Sign == ' ')
 		          Sign = '-';
@@ -159,7 +158,7 @@ public class calc {
 		        HaveMemory = true;
 		      }
 		      else if (key == "MR") {		      
-		        CheckFirst();
+		        check();
 		        setDisplay(Memory, false);
 		      }
 		      else if (key == "MC") {		      
@@ -167,94 +166,109 @@ public class calc {
 		        HaveMemory = false;
 		      }
 		  }
-	}
-		  else
-		    case key[1] of
-		      '0'..'9':
-		        if Length(Number) < MaxDigits then
-		        begin
-		          CheckFirst;
-		          if Number = '0' then
-		            Number := '';
-		          Number := Number + Key;
-		          DispNumber := StrToFloat(Number);
+	
+		  else {		    
+			char k = key.charAt(0);  
+		    
+		    if (k >= '0' && k <= '9') { 
+		        if (Number.length() < MaxDigits)
+		        {
+		          check();
+		          if (Number == "0")
+		            Number = "";
+		          Number = Number + key; //check maybe must k not key
+		          DispNumber = Double.parseDouble(Number);
 		          //SetDisplay(StrToFloat(Number), True);
-		        end;
-		      '.':
-		        begin
-		          CheckFirst;
-		          if Pos('.', Number) = 0 then
-		            Number := Number + '.';
-		        end;
-		      #8:
-		        begin
-		          CheckFirst;
-		          if Length(Number) = 1 then
-		            Number := '0'
+		        }
+		      }
+		    else if (k == '.')
+		        {		    			    
+		          check();
+		          if (Number.indexOf('.') >= 0)
+		            Number = Number + '.';
+		        };
+		      if (k == '~') //Delte
+		        {
+		          check();
+		          if (Number.length() == 1)
+		            Number = "0";
 		          else
-		            Number := LeftStr(Number, Length(Number) - 1);
-		          SetDisplay(StrToFloat(Number), True); { !!! }
-		        end;
-		      'H':
-		        begin
-		          GetDisplay(R);
-		          X := trunc(abs(R));
-		          Number := IntToHex(longint(X), 8);
-		          HexShown := True;
-		        end;
-		      '^', '+', '-', '*', '/', '%', '=':
-		        begin
-		          if (Key[1] = '=') and (Status = csFirst) then //for repeat last operator
-		          begin
-		            Status := csValid;
-		            R := LastResult;
-		            CurrentOperator := LastOperator;
-		          end
-		          else
-		            GetDisplay(R);
+		            Number = LeftStr(Number, Length(Number) - 1);
+		          setDisplay(StrToFloat(Number), True);// { !!! }
+		        };
+		      if (k == 'H')
+		        {
+		          r = getDisplay();
+		          int x = Math.trunc(Math.abs(r));
+		          Number = Integer.toHexString(x);
+		          HexShown = true;
+		        }
+		      if (k == '^' || k == '+' || k == '-' || k == '*' || k == '/' || k == '%' || k == '=') 
+		        {
+		          if ((k == '=') && (Status == CalcState.csFirst)) //for repeat last operator
+		          {
+		            Status = csValid;
+		            r = LastResult;
+		            CurrentOperator = LastOperator;
+		        }
+		          else {
+		            r = getDisplay();
 
-		          if (Status = csValid) then
-		          begin
-		            Started := True;
-		            if CurrentOperator = '=' then
-		              s := ' '
+		          if (Status == CalcState.csValid) 
+		          {
+		            Started = true;
+		            if (CurrentOperator == '=')
+		              s = " ";
 		            else
-		              s := CurrentOperator;
+		              s.valueOf(CurrentOperator);
 		            Log(s + FloatToStrF(R, ffGeneral, MaxDecimals, MaxDigits));
-		            Status := csFirst;
-		            LastOperator := CurrentOperator;
-		            LastResult := R;
-		            if Key = '%' then
-		            begin
-		              case CurrentOperator of
-		                '+', '-': R := Operand * R / 100;
-		                '*', '/': R := R / 100;
-		              end;
-		            end;
+		            Status = CalcState.csFirst;
+		            LastOperator = CurrentOperator;
+		            LastResult = r;
+		            if (k == '%')
+		            {
+		              if (CurrentOperator == '+' || CurrentOperator == '-')         
+		                r = Operand * r / 100;
+		              else if (CurrentOperator == '*' || CurrentOperator == '/')         
+		                r = r / 100;
+		          }
+		        }
 
-		            case CurrentOperator of
-		              '^': if (Operand = 0) and (R <= 0) then Error else SetDisplay(Power(Operand, R), False);
-		              '+': SetDisplay(Operand + R, False);
-		              '-': SetDisplay(Operand - R, False);
-		              '*': SetDisplay(Operand * R, False);
-		              '/': if R = 0 then Error else SetDisplay(Operand / R, False);
-		            end;
-		            if (Key[1] = '=') then
-		              Log('=' + Number);
-		          end;
-		          CurrentOperator := Key[1];
-		          GetDisplay(Operand);
-		        end;
-		      'C':
-		        begin
-		          CheckFirst;
-		          SetDisplay(0, True);
-		        end;
-		    else
-		      Result := False;
-		    end;
-		  Refresh;
-		end;
+		            if (CurrentOperator == '^') {
+		              if ((Operand == 0) && (r <= 0)) 
+		              	error(); 
+		              else 
+		                setDisplay(Math.pow(Operand, r), false);
+		            }else if (CurrentOperator == '+')  
+		              setDisplay(Operand + r, false);
+		            else if (CurrentOperator == '-')
+		              setDisplay(Operand - r, false);
+		            else if (CurrentOperator == '*')
+		              setDisplay(Operand * r, false);
+		            else if (CurrentOperator == '/') {
+		              if (r == 0)
+		            	error(); 
+		            	else 
+		            	setDisplay(Operand / r, false);
+		            }
+		        }
+		            if (k == '=')
+		              log('=' + Number);
+		  }
+		          CurrentOperator = k;
+		          Operand = getDisplay();
+	}
+		      if (k == 'C')
+		        {
+		          check();
+		          setDisplay(0, true);
+		        }
+		        }
+		      result = false;
+		      }
+		  refresh();
+		  }
+		  return result;
 	}
 
 	void clear() {
@@ -273,7 +287,7 @@ public class calc {
 		Memory = 0;
 	}
 
-	void Error() {
+	void error() {
 		Status = CalcState.csError;
 		Number = "Error";
 		Sign = ' ';
@@ -281,12 +295,11 @@ public class calc {
 	}
 
 	// This methods need to override;
-	void log(String S) { // virtual;
+	void log(String S) { // virtual
 
 	}
 
 	void refresh() {
-		; // virtual;
-
+		// virtual
 	}
 }
