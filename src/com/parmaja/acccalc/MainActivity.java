@@ -1,4 +1,10 @@
 package com.parmaja.acccalc;
+/* to prevent reset on rotate then add to
+ * android:configChanges in manifest for that activity
+ * keyboard|keyboardHidden|orientation
+ * http://stackoverflow.com/questions/456211/activity-restart-on-rotation-android
+ */
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -18,16 +24,28 @@ import com.parmaja.mini.Calculator;
 
 public class MainActivity extends Activity {
 	private TextView txtDisplay;
+	private TextView txtMemory;
+	private TextView txtOperator;
 	private ListView listItems;
 	private LinearLayout padLayout;
+	private ArrayList<String> history;
 
 	final class Calc extends Calculator {
 
 		@Override
 		public void refresh() {
 			super.refresh();
-			if (txtDisplay != null)
+			if (txtDisplay != null)	{
+				if (!this.cOperator.equals("="))
+					txtOperator.setText(this.cOperator);
+				else
+					txtOperator.setText("");
+				if (this.bHaveMemory)
+					txtMemory.setText("M");
+				else
+					txtMemory.setText("");
 				txtDisplay.setText(toString());
+			}
 		}
 
 		@Override
@@ -36,7 +54,7 @@ public class MainActivity extends Activity {
 		}
 
 	}
-
+	
 	private Calc calc = new Calc();
 
 	@Override
@@ -50,17 +68,22 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		txtDisplay = (TextView) findViewById(R.id.display);
+		txtMemory = (TextView) findViewById(R.id.mem);
+		txtOperator = (TextView) findViewById(R.id.opr);
 		listItems = (ListView) findViewById(R.id.results);
 		padLayout = (LinearLayout) findViewById(R.id.pad);
 
 		assignButtons(padLayout);
 
+		history = new ArrayList<String>();
+		
+		
 		calc.clear();
 	}
 
 	@Override
 	// Catch the keyboard too
-	public boolean dispatchKeyEvent(KeyEvent KEvent) {
+		public boolean dispatchKeyEvent(KeyEvent KEvent) {
 		int keyaction = KEvent.getAction();
 
 		if (keyaction == KeyEvent.ACTION_DOWN) {
