@@ -256,7 +256,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:tag="C"
+                android:tag="CR"
                 android:text="@string/stC" />
 
             <Button
