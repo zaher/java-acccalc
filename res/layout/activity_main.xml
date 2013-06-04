@@ -7,13 +7,16 @@
     tools:context=".MainActivity" >
 
     <ListView
-        android:id="@+id/results"
+        android:id="@+id/history"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="64dp"
         android:choiceMode="none"
         android:drawSelectorOnTop="false"
-        android:transcriptMode="alwaysScroll"      
-        android:layout_weight="2" >
+        android:transcriptMode="alwaysScroll"
+        android:headerDividersEnabled="false"
+        android:dividerHeight="0dp"
+        android:background="#fff"
+        >
     </ListView>
 
     <LinearLayout
@@ -36,7 +39,8 @@
                 android:background="#C6C89E"
 	            android:textColor="#000"
     	        android:textSize="16sp"
-    	        android:gravity="center"                
+    	        android:gravity="center"
+    	        android:typeface="monospace"                
                 android:text="M" />
 
             <TextView
@@ -48,6 +52,7 @@
 	            android:textColor="#000"
     	        android:textSize="16sp"
     	        android:gravity="center"
+    	        android:typeface="monospace"
                 android:text="+" />
 
         </LinearLayout>

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -26,9 +27,10 @@ public class MainActivity extends Activity {
 	private TextView txtDisplay;
 	private TextView txtMemory;
 	private TextView txtOperator;
-	private ListView listItems;
+	private ListView listHistory;
 	private LinearLayout padLayout;
-	private ArrayList<String> history;
+	private ArrayList<String> history_array;
+	private ArrayAdapter<String> history;
 
 	final class Calc extends Calculator {
 
@@ -50,7 +52,7 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void log(String S) {
-			super.refresh();
+			history.add(S);
 		}
 
 	}
@@ -61,7 +63,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Full Screen
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		// Load activity
@@ -70,14 +72,16 @@ public class MainActivity extends Activity {
 		txtDisplay = (TextView) findViewById(R.id.display);
 		txtMemory = (TextView) findViewById(R.id.mem);
 		txtOperator = (TextView) findViewById(R.id.opr);
-		listItems = (ListView) findViewById(R.id.results);
+		listHistory = (ListView) findViewById(R.id.history);
 		padLayout = (LinearLayout) findViewById(R.id.pad);
 
 		assignButtons(padLayout);
 
-		history = new ArrayList<String>();
+		history_array = new ArrayList<String>();		
+		history = new ArrayAdapter<String>(this, R.layout.history, history_array);		
 		
-		
+		listHistory.setAdapter(history);	
+	  
 		calc.clear();
 	}
 
