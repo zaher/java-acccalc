@@ -12,7 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.parmaja.acccalc.R;
+import com.parmaja.acccalc.R; 
+import com.parmaja.Calculator;
 
 public class MainActivity extends Activity {
     private TextView txtDisplay;
@@ -32,6 +33,21 @@ public class MainActivity extends Activity {
 		listItems = (ListView) findViewById(R.id.results);
 		padLayout = (LinearLayout) findViewById(R.id.pad);
 		
+		
+		final class Calc extends Calculator {
+			@Override
+			public void refresh(){
+				super.refresh();
+			}
+			
+			@Override
+			public void log(String S){
+				super.refresh();
+			}
+			
+		}
+		
+		Calc calc = new Calc();
 		
 		//txtDisplay.setText("0".toString());		
 		setDislpay("0");
