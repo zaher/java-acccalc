@@ -15,8 +15,7 @@
         android:transcriptMode="alwaysScroll"
         android:headerDividersEnabled="false"
         android:dividerHeight="0dp"
-        android:background="#fff"
-        android:divider="#c0c0c0"
+        android:background="#fff"        
         >
     </ListView>
 

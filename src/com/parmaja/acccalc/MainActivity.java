@@ -151,9 +151,8 @@ public class MainActivity extends Activity {
 	protected Dialog onCreateDialog(int id) {
 	  switch (id) {
 	    case DIALOG_ALERT:
-	    // Create out AlterDialog
 	    Builder builder = new AlertDialog.Builder(this);
-	    builder.setMessage("Accountant Calculator is free to use\nLicensed under:\nCreativeCommons(CC BY-ND 3.0)\nWriten by: Zaher Dirkey");
+	    builder.setMessage("Accountant Calculator is free to use and distribute\nVersion: AccCalc 1.1\nLicensed under:\nCreativeCommons(CC BY-ND 3.0)\nWriten by: Zaher Dirkey");
 	    builder.setCancelable(true);
 	    builder.setPositiveButton("Ok", new OnAboutOkClickListener());
 	    AlertDialog dialog = builder.create();
