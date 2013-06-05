@@ -7,9 +7,14 @@ package com.parmaja.acccalc;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -32,16 +37,22 @@ public class MainActivity extends Activity {
 	private ArrayList<String> history_array;
 	private ArrayAdapter<String> history;
 
+	private static final int DIALOG_ALERT = 10;
+	
 	final class Calc extends Calculator {
 
 		@Override
 		public void refresh() {
 			super.refresh();
 			if (txtDisplay != null)	{
-				if (!this.cOperator.equals("="))
-					txtOperator.setText(this.cOperator);
-				else
+				if (this.cOperator.equals("="))
 					txtOperator.setText("");
+				else if (this.cOperator.equals("*")) 
+					txtOperator.setText("×");
+				else if (this.cOperator.equals("/")) 
+					txtOperator.setText("÷");
+				else
+					txtOperator.setText(this.cOperator);					
 				if (this.bHaveMemory)
 					txtMemory.setText("M");
 				else
@@ -75,6 +86,7 @@ public class MainActivity extends Activity {
 		listHistory = (ListView) findViewById(R.id.history);
 		padLayout = (LinearLayout) findViewById(R.id.pad);
 
+		txtDisplay.setHorizontallyScrolling(true);
 		assignButtons(padLayout);
 
 		history_array = new ArrayList<String>();		
@@ -134,11 +146,46 @@ public class MainActivity extends Activity {
 	}
 
 	// Toast.makeText(this, "Button clicked!", Toast.LENGTH_SHORT).show();
-
+			
+	@Override
+	protected Dialog onCreateDialog(int id) {
+	  switch (id) {
+	    case DIALOG_ALERT:
+	    // Create out AlterDialog
+	    Builder builder = new AlertDialog.Builder(this);
+	    builder.setMessage("Accountant Calculator is free to use\nLicensed under:\nCreativeCommons(CC BY-ND 3.0)\nWriten by: Zaher Dirkey");
+	    builder.setCancelable(true);
+	    builder.setPositiveButton("Ok", new OnAboutOkClickListener());
+	    AlertDialog dialog = builder.create();
+	    dialog.show();
+	   }
+	  return super.onCreateDialog(id);
+	}
+	
+	private final class OnAboutOkClickListener implements DialogInterface.OnClickListener {
+		public void onClick(DialogInterface dialog, int which) {
+			dialog.dismiss();
+		}
+	} 	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch(item.getItemId())
+	    {
+	    case R.id.action_exit:
+	    	finish();
+	        break;
+	    case R.id.action_about:
+	    	showDialog(DIALOG_ALERT);
+	        break;
+	    }
+	    return true;
+	}		
 }
